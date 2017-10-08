@@ -2,6 +2,8 @@ package jp.classmethod.spring_stateless_csrf_filter.token;
 
 import org.apache.commons.codec.digest.HmacUtils;
 
+import java.nio.charset.StandardCharsets;
+
 public class TokenSigner {
 
     private final String key;
@@ -22,8 +24,8 @@ public class TokenSigner {
     }
 
     boolean compareSafely(String a, String b){
-        final byte[] digesta = a.getBytes();
-        final byte[] digestb = b.getBytes();
+        final byte[] digesta = a.getBytes(StandardCharsets.UTF_8);
+        final byte[] digestb = b.getBytes(StandardCharsets.UTF_8);
 
         if (digesta.length != digestb.length){
             return false;
