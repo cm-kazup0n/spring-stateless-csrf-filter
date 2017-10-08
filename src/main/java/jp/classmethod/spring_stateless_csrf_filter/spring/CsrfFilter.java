@@ -58,7 +58,7 @@ public class CsrfFilter extends OncePerRequestFilter {
 
     boolean validateToken(HttpServletRequest request){
         final Session session = sessionProvider.get(request, true).get();
-        final Optional<Token> tokenFromSession = session.get(CSRF_TOKEN_NAME).map(s -> Token.decodeAndVerify(signer, s));
+        final Optional<Token> tokenFromSession = session.get(CSRF_TOKEN_NAME).map(s -> Token.decodeAndVerify(signer, (String)s));
         final Optional<Token> tokenFromCookie = Optional.ofNullable(request.getParameter(CSRF_TOKEN_NAME)).map(s->Token.decodeAndVerify(signer, s));
         return tokenFromSession.flatMap(s -> tokenFromCookie.map(c-> c.compareSafely(s))).orElse(false);
     }
