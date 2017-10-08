@@ -11,6 +11,9 @@ public class Token {
     private final String nonce;
 
     Token(String secret, String nonce){
+        if(nonce.contains("-")){
+            throw new IllegalArgumentException("nonce must not contains any `-`");
+        }
         this.secret = secret;
         this.nonce = nonce;
     }
@@ -28,7 +31,7 @@ public class Token {
     }
 
     public static Token decodeAndVerify(TokenSigner signer, final String raw){
-        String[] parts = raw.split("-");
+        String[] parts = raw.split("-", 3);
         if(parts.length != 3){
             throw new IllegalArgumentException("Invalid raw token: " + raw);
         }
