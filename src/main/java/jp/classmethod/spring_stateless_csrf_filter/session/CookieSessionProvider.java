@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-public class CookieSessionProvider implements SessionProvider<CookieSession> {
+public class CookieSessionProvider implements SessionProvider {
 
     private final SessionCookieBaker baker;
     private final TokenSigner signer;
@@ -18,7 +18,7 @@ public class CookieSessionProvider implements SessionProvider<CookieSession> {
     }
 
     @Override
-    public Optional<CookieSession> get(HttpServletRequest request, boolean create) {
+    public Optional<Session> get(HttpServletRequest request, boolean create) {
         final Cookie[] cookies = request.getCookies();
         final String cookieName = baker.getCookieName();
         for(Cookie cookie: cookies){
@@ -30,7 +30,11 @@ public class CookieSessionProvider implements SessionProvider<CookieSession> {
     }
 
     @Override
-    public void flush(HttpServletResponse response, CookieSession session) {
-        baker.addCookie(response, signer, session);
+    public void flush(HttpServletResponse response, Session session) {
+        if(session instanceof CookieSession){
+            baker.addCookie(response, signer, (CookieSession) session);
+        }else{
+            throw new IllegalArgumentException("CookieSessionProvider accepts only CookieSession, But given + " + session.getClass().getCanonicalName());
+        }
     }
 }

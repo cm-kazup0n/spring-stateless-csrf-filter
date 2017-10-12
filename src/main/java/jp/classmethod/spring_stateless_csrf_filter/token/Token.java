@@ -43,6 +43,10 @@ public class Token {
         return token;
     }
 
+    public boolean compareSafely(Token other){
+        return TokenSigner.compareSafely(getMessage(), other.getMessage());
+    }
+
 
     public static final Token generate(){
         byte[] bytes = new byte[12];
