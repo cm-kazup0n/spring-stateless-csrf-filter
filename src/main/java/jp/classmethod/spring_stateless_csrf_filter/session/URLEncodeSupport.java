@@ -6,9 +6,10 @@ import java.net.URLEncoder;
 
 final class URLEncodeSupport {
 
-    private URLEncodeSupport(){}
+    private URLEncodeSupport() {
+    }
 
-    static String encode(String s){
+    static String encode(String s) {
         try {
             return URLEncoder.encode(s, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -16,7 +17,7 @@ final class URLEncodeSupport {
         }
     }
 
-    static String decode(String s){
+    static String decode(String s) {
         try {
             return URLDecoder.decode(s, "UTF-8");
         } catch (UnsupportedEncodingException e) {

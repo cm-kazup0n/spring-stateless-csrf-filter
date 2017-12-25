@@ -3,13 +3,14 @@ package jp.classmethod.spring_stateless_csrf_filter.spring;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DefaultRequestMatacherTest {
 
     @Test
-    public void testMethodMatches(){
-        final RequireCsrfProtectionRequestMatcher matcher = DefaultRequestMatacher.Builder.create("/*");
+    public void testMethodMatches() {
+        final RequireCsrfProtectionRequestMatcher matcher = DefaultRequestMatcher.Builder.create("/*");
         //POST, PUT, DELETE, PATCH are to inspect.
         assertTrue(matcher.matches(new MockHttpServletRequest("POST", "/")));
         assertTrue(matcher.matches(new MockHttpServletRequest("PUT", "/")));
@@ -24,8 +25,8 @@ public class DefaultRequestMatacherTest {
     }
 
     @Test
-    public void testPatternMatches(){
-        final RequireCsrfProtectionRequestMatcher matcher = DefaultRequestMatacher.Builder.create(
+    public void testPatternMatches() {
+        final RequireCsrfProtectionRequestMatcher matcher = DefaultRequestMatcher.Builder.create(
                 "/person/*/items",
                 "/cat/",
                 "/dog/*",
@@ -47,7 +48,6 @@ public class DefaultRequestMatacherTest {
         assertTrue(matcher.matches(new MockHttpServletRequest("POST", "/lion/aaaa")));
         assertTrue(matcher.matches(new MockHttpServletRequest("POST", "/lion/aaa/foo")));
     }
-
 
 
 }

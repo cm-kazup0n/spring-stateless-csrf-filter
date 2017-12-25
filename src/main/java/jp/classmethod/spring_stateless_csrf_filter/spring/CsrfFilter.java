@@ -4,6 +4,7 @@ import jp.classmethod.spring_stateless_csrf_filter.session.Session;
 import jp.classmethod.spring_stateless_csrf_filter.session.SessionProvider;
 import jp.classmethod.spring_stateless_csrf_filter.token.Token;
 import jp.classmethod.spring_stateless_csrf_filter.token.TokenSigner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -21,25 +22,31 @@ public class CsrfFilter extends OncePerRequestFilter {
     private final RequireCsrfProtectionRequestMatcher matcher;
     private final SessionProvider sessionProvider;
     private final TokenSigner signer;
+    private final String csrfTokenName;
 
 
-    CsrfFilter(RequireCsrfProtectionRequestMatcher matcher, SessionProvider sessionProvider, TokenSigner signer, AccessDeniedHandler accessDeniedHandler){
+    public CsrfFilter(RequireCsrfProtectionRequestMatcher matcher, SessionProvider sessionProvider, TokenSigner signer, AccessDeniedHandler accessDeniedHandler, String tokenName) {
         this.matcher = matcher;
         this.sessionProvider = sessionProvider;
         this.signer = signer;
         this.accessDeniedHandler = accessDeniedHandler;
+        this.csrfTokenName = tokenName;
+    }
+
+    public CsrfFilter(RequireCsrfProtectionRequestMatcher matcher, SessionProvider sessionProvider, TokenSigner signer, AccessDeniedHandler accessDeniedHandler){
+        this(matcher, sessionProvider, signer, accessDeniedHandler, CSRF_TOKEN_NAME);
     }
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //pass through
-        if(!matcher.matches(request)){
+        if (!matcher.matches(request)) {
             filterChain.doFilter(request, response);
             return;
         }
         //validate
-        if(!validateToken(request)){
+        if (!validateToken(request)) {
             refreshToken(request, response);
             accessDeniedHandler.handleRequest(request, response);
             return;
@@ -50,20 +57,18 @@ public class CsrfFilter extends OncePerRequestFilter {
     }
 
 
-    void refreshToken(HttpServletRequest request, HttpServletResponse response){
-        final Token newToken = Token.generate();
-        final Session session = sessionProvider.get(request, true).get().put(CSRF_TOKEN_NAME, Token.signAndEncode(signer, newToken));
+    void refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        final Token newToken = Token.Builder.generate();
+        final Session session = sessionProvider.get(request, true).get().put(csrfTokenName, Token.SerDe.signAndEncode(signer, newToken));
         sessionProvider.flush(response, session);
     }
 
-    boolean validateToken(HttpServletRequest request){
+    boolean validateToken(HttpServletRequest request) {
         final Session session = sessionProvider.get(request, true).get();
-        final Optional<Token> tokenFromSession = session.get(CSRF_TOKEN_NAME).map(s -> Token.decodeAndVerify(signer, (String)s));
-        final Optional<Token> tokenFromCookie = Optional.ofNullable(request.getParameter(CSRF_TOKEN_NAME)).map(s->Token.decodeAndVerify(signer, s));
-        return tokenFromSession.flatMap(s -> tokenFromCookie.map(c-> c.compareSafely(s))).orElse(false);
+        final Optional<Token> tokenFromSession = session.get(csrfTokenName).map(s -> Token.SerDe.decodeAndVerify(signer, (String) s));
+        final Optional<Token> tokenFromCookie = Optional.ofNullable(request.getParameter(csrfTokenName)).map(s -> Token.SerDe.decodeAndVerify(signer, s));
+        return tokenFromSession.flatMap(s -> tokenFromCookie.map(c -> c.compareSafely(s))).orElse(false);
     }
-
-
 
 
 }

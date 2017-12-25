@@ -13,11 +13,9 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class CsrfFilterTest {
@@ -29,11 +27,11 @@ public class CsrfFilterTest {
     private TokenSigner tokenSigner;
     private AccessDeniedHandler accessDeniedHandler;
     private FilterChain filterChain;
-    private Token token = Token.generate();
+    private Token token = Token.Builder.generate();
     private String rawToken;
 
     @Before
-    public void setUp(){
+    public void setUp() {
 
         matcher = mock(RequireCsrfProtectionRequestMatcher.class);
         sessionProvider = mock(SessionProvider.class);
@@ -50,7 +48,7 @@ public class CsrfFilterTest {
         csrfFilter = new CsrfFilter(matcher, sessionProvider, tokenSigner, accessDeniedHandler);
 
 
-        rawToken = Token.signAndEncode(tokenSigner, token);
+        rawToken = Token.SerDe.signAndEncode(tokenSigner, token);
     }
 
     @Test
@@ -107,8 +105,6 @@ public class CsrfFilterTest {
         verify(filterChain, never()).doFilter(request, response);
         verify(sessionProvider).flush(response, session);
     }
-
-
 
 
 }
