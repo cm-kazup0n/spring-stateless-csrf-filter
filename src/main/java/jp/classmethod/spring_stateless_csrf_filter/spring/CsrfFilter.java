@@ -23,7 +23,7 @@ public class CsrfFilter extends OncePerRequestFilter {
     private final TokenSigner signer;
 
 
-    CsrfFilter(RequireCsrfProtectionRequestMatcher matcher, SessionProvider sessionProvider, TokenSigner signer, AccessDeniedHandler accessDeniedHandler){
+    CsrfFilter(RequireCsrfProtectionRequestMatcher matcher, SessionProvider sessionProvider, TokenSigner signer, AccessDeniedHandler accessDeniedHandler) {
         this.matcher = matcher;
         this.sessionProvider = sessionProvider;
         this.signer = signer;
@@ -34,12 +34,12 @@ public class CsrfFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //pass through
-        if(!matcher.matches(request)){
+        if (!matcher.matches(request)) {
             filterChain.doFilter(request, response);
             return;
         }
         //validate
-        if(!validateToken(request)){
+        if (!validateToken(request)) {
             refreshToken(request, response);
             accessDeniedHandler.handleRequest(request, response);
             return;
@@ -50,20 +50,18 @@ public class CsrfFilter extends OncePerRequestFilter {
     }
 
 
-    void refreshToken(HttpServletRequest request, HttpServletResponse response){
+    void refreshToken(HttpServletRequest request, HttpServletResponse response) {
         final Token newToken = Token.Builder.generate();
         final Session session = sessionProvider.get(request, true).get().put(CSRF_TOKEN_NAME, Token.SerDe.signAndEncode(signer, newToken));
         sessionProvider.flush(response, session);
     }
 
-    boolean validateToken(HttpServletRequest request){
+    boolean validateToken(HttpServletRequest request) {
         final Session session = sessionProvider.get(request, true).get();
-        final Optional<Token> tokenFromSession = session.get(CSRF_TOKEN_NAME).map(s -> Token.SerDe.decodeAndVerify(signer, (String)s));
-        final Optional<Token> tokenFromCookie = Optional.ofNullable(request.getParameter(CSRF_TOKEN_NAME)).map(s-> Token.SerDe.decodeAndVerify(signer, s));
-        return tokenFromSession.flatMap(s -> tokenFromCookie.map(c-> c.compareSafely(s))).orElse(false);
+        final Optional<Token> tokenFromSession = session.get(CSRF_TOKEN_NAME).map(s -> Token.SerDe.decodeAndVerify(signer, (String) s));
+        final Optional<Token> tokenFromCookie = Optional.ofNullable(request.getParameter(CSRF_TOKEN_NAME)).map(s -> Token.SerDe.decodeAndVerify(signer, s));
+        return tokenFromSession.flatMap(s -> tokenFromCookie.map(c -> c.compareSafely(s))).orElse(false);
     }
-
-
 
 
 }

@@ -13,7 +13,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -32,7 +31,7 @@ public class CsrfFilterTest {
     private String rawToken;
 
     @Before
-    public void setUp(){
+    public void setUp() {
 
         matcher = mock(RequireCsrfProtectionRequestMatcher.class);
         sessionProvider = mock(SessionProvider.class);
@@ -106,8 +105,6 @@ public class CsrfFilterTest {
         verify(filterChain, never()).doFilter(request, response);
         verify(sessionProvider).flush(response, session);
     }
-
-
 
 
 }

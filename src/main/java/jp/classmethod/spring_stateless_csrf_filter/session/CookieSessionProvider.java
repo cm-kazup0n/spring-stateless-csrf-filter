@@ -12,7 +12,7 @@ public class CookieSessionProvider implements SessionProvider {
     private final SessionCookieBaker baker;
     private final TokenSigner signer;
 
-    public CookieSessionProvider(SessionCookieBaker baker, TokenSigner signer){
+    public CookieSessionProvider(SessionCookieBaker baker, TokenSigner signer) {
         this.baker = baker;
         this.signer = signer;
     }
@@ -21,8 +21,8 @@ public class CookieSessionProvider implements SessionProvider {
     public Optional<Session> get(HttpServletRequest request, boolean create) {
         final Cookie[] cookies = request.getCookies();
         final String cookieName = baker.getCookieName();
-        for(Cookie cookie: cookies){
-            if(cookieName.equals(cookie.getName())){
+        for (Cookie cookie : cookies) {
+            if (cookieName.equals(cookie.getName())) {
                 return Optional.of(CookieSession.SerDe.deserialize(signer, cookie.getValue()));
             }
         }
@@ -31,9 +31,9 @@ public class CookieSessionProvider implements SessionProvider {
 
     @Override
     public void flush(HttpServletResponse response, Session session) {
-        if(session instanceof CookieSession){
+        if (session instanceof CookieSession) {
             baker.addCookie(response, signer, (CookieSession) session);
-        }else{
+        } else {
             throw new IllegalArgumentException("CookieSessionProvider accepts only CookieSession, But given + " + session.getClass().getCanonicalName());
         }
     }

@@ -4,6 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface RequireCsrfProtectionRequestMatcher {
 
-   boolean matches(HttpServletRequest request);
+    boolean matches(HttpServletRequest request);
 
 }

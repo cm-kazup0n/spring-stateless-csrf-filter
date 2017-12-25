@@ -12,7 +12,7 @@ public class TokenSignerTest {
     private final Token predefinedToken = new Token("SECRET", "NONCE");
 
     @Test
-    public void testSign(){
+    public void testSign() {
         //生成する署名が期待値と同じ
         assertEquals(preDefinedSign, signer.sign(predefinedToken));
 
@@ -25,17 +25,17 @@ public class TokenSignerTest {
     }
 
     @Test
-    public void testVerify_有効な署名(){
+    public void testVerify_有効な署名() {
         signer.verify(predefinedToken, preDefinedSign);
     }
 
     @Test(expected = InvalidTokenException.class)
-    public void testVerify_無効な署名(){
+    public void testVerify_無効な署名() {
         signer.verify(Token.Builder.generate(), preDefinedSign);
     }
 
     @Test
-    public void testCompareSafely(){
+    public void testCompareSafely() {
         //文字列長が異なる
         assertFalse(TokenSigner.compareSafely("abc", "abcd"));
         //一致する
@@ -43,7 +43,6 @@ public class TokenSignerTest {
         //一致しない
         assertFalse(TokenSigner.compareSafely("abce", "abcd"));
     }
-
 
 
 }

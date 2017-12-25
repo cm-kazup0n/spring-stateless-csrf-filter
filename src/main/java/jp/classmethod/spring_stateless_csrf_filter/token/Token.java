@@ -10,15 +10,15 @@ public class Token {
     private final String secret;
     private final String nonce;
 
-    Token(String secret, String nonce){
-        if(nonce.contains("-")){
+    Token(String secret, String nonce) {
+        if (nonce.contains("-")) {
             throw new IllegalArgumentException("nonce must not contains any `-`");
         }
         this.secret = secret;
         this.nonce = nonce;
     }
 
-    public String getMessage(){
+    public String getMessage() {
         return nonce + "-" + secret;
     }
 
@@ -26,21 +26,22 @@ public class Token {
         return secret;
     }
 
-    public boolean compareSafely(Token other){
+    public boolean compareSafely(Token other) {
         return TokenSigner.compareSafely(getMessage(), other.getMessage());
     }
 
     public static class SerDe {
 
-        private SerDe(){}
+        private SerDe() {
+        }
 
-        public static String signAndEncode(TokenSigner signer, final Token token){
+        public static String signAndEncode(TokenSigner signer, final Token token) {
             return signer.sign(token) + "-" + token.getMessage();
         }
 
-        public static Token decodeAndVerify(TokenSigner signer, final String raw){
+        public static Token decodeAndVerify(TokenSigner signer, final String raw) {
             String[] parts = raw.split("-", 3);
-            if(parts.length != 3){
+            if (parts.length != 3) {
                 throw new IllegalArgumentException("Invalid raw token: " + raw);
             }
             final String sign = parts[0];
@@ -54,9 +55,10 @@ public class Token {
 
     public static class Builder {
 
-        private Builder(){}
+        private Builder() {
+        }
 
-        public static final Token generate(){
+        public static final Token generate() {
             byte[] bytes = new byte[12];
             try {
                 SecureRandom.getInstanceStrong().nextBytes(bytes);
@@ -66,13 +68,11 @@ public class Token {
             }
         }
 
-        public static final Token generate(final String payload){
+        public static final Token generate(final String payload) {
             final String nonce = Long.toString(System.currentTimeMillis());
             return new Token(payload, nonce);
         }
     }
-
-
 
 
 }

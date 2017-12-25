@@ -35,7 +35,8 @@ public class CookieSession implements Session {
 
     public static class SerDe {
 
-        private SerDe(){}
+        private SerDe() {
+        }
 
         public static String serialize(TokenSigner signer, CookieSession session) {
             final List<String> values = new ArrayList<>(session.values.size());

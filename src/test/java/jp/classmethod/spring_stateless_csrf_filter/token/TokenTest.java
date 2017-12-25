@@ -6,7 +6,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class TokenTest {
 
@@ -22,15 +23,15 @@ public class TokenTest {
         //引数なしの場合はsercet, messageが毎回違う
         final Set<Token> tokens = IntStream.of(100)
                 .boxed()
-                .map(n-> Token.Builder.generate())
+                .map(n -> Token.Builder.generate())
                 .collect(Collectors.toSet());
 
-        for(Token tokenA: tokens){
-            for(Token tokenB: tokens){
-                if(tokenA != tokenB){
+        for (Token tokenA : tokens) {
+            for (Token tokenB : tokens) {
+                if (tokenA != tokenB) {
                     assertNotEquals(tokenA.getSecret(), tokenB.getSecret());
                     assertNotEquals(tokenA.getMessage(), tokenB.getMessage());
-                }else{
+                } else {
                     assertEquals(tokenA.getSecret(), tokenB.getSecret());
                     assertEquals(tokenA.getMessage(), tokenB.getMessage());
                 }
@@ -39,7 +40,7 @@ public class TokenTest {
     }
 
     @Test
-    public void testEncodeAndDecode(){
+    public void testEncodeAndDecode() {
         final Token token = new Token("SECRET", "NONCE");
         final String encoded = Token.SerDe.signAndEncode(signer, token);
         //encode
@@ -52,17 +53,17 @@ public class TokenTest {
     }
 
     @Test(expected = InvalidTokenException.class)
-    public void testDecodeFailWithFalseMessage(){
+    public void testDecodeFailWithFalseMessage() {
         Token.SerDe.decodeAndVerify(signer, "f8b28a95368841901a1a3ed9eb2fb3b737994ac0-NONCEA-SECRET");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testDecodeFailWithInvalidFormat(){
+    public void testDecodeFailWithInvalidFormat() {
         Token.SerDe.decodeAndVerify(signer, "f8b28a95368841901a1a3ed9eb2fb3b737994ac0-NONCESECRET");
     }
 
     @Test
-    public void testDecodeWithDashInMessage(){
+    public void testDecodeWithDashInMessage() {
         final Token token = new Token("--SECRET--", "NONCE");
         final String encoded = Token.SerDe.signAndEncode(signer, token);
         //encode
@@ -75,11 +76,9 @@ public class TokenTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void nonceContainsDash(){
+    public void nonceContainsDash() {
         new Token("---SECRET", "--NONCE");
     }
-
-
 
 
 }
