@@ -37,11 +37,11 @@ public class TokenSignerTest {
     @Test
     public void testCompareSafely(){
         //文字列長が異なる
-        signer.compareSafely("abc", "abcd");
+        assertFalse(TokenSigner.compareSafely("abc", "abcd"));
         //一致する
-        signer.compareSafely("abc", "abc");
+        assertTrue(TokenSigner.compareSafely("abc", "abc"));
         //一致しない
-        signer.compareSafely("abce", "abcd");
+        assertFalse(TokenSigner.compareSafely("abce", "abcd"));
     }
 
 

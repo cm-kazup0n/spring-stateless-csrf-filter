@@ -53,11 +53,6 @@ public class CsrfFilterTest {
         rawToken = Token.signAndEncode(tokenSigner, token);
     }
 
-    //todo
-    //matches only requried request
-    //call accessDeniedHandler if session is invalidate
-    //call next filter if session is validate
-
     @Test
     public void nonMatchedRequest() throws ServletException, IOException {
         //subsequent filter will be called if request is not matched.
