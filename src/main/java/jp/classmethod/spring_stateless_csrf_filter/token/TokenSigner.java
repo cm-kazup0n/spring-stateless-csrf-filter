@@ -23,7 +23,7 @@ public class TokenSigner {
         }
     }
 
-    boolean compareSafely(String a, String b){
+    static boolean compareSafely(String a, String b){
         final byte[] digesta = a.getBytes(StandardCharsets.UTF_8);
         final byte[] digestb = b.getBytes(StandardCharsets.UTF_8);
 

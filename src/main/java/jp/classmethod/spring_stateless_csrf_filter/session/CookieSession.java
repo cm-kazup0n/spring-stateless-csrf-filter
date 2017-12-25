@@ -20,7 +20,7 @@ public class CookieSession implements Session {
         return new CookieSession(values);
     }
 
-    public static Optional<CookieSession> noneOrEmptyOne(boolean empty){
+    public static Optional<Session> noneOrEmptyOne(boolean empty){
         return Optional.ofNullable(empty ? new CookieSession(Collections.emptyMap()): null);
     }
 
@@ -56,8 +56,8 @@ public class CookieSession implements Session {
                 .of(token.getSecret().split("&"))
                 .map(s->s.split("="))
                 .collect(Collectors.toMap(
-                        kv->kv[0],
-                        kv->kv[1]
+                        kv->URLEncodeSupport.decode(kv[0]),
+                        kv->URLEncodeSupport.decode(kv[1])
                 ));
         return new CookieSession(values);
     }

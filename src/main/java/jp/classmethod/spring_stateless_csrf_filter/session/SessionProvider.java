@@ -4,10 +4,10 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public interface SessionProvider<E extends Session> {
+public interface SessionProvider {
 
-    Optional<E> get(HttpServletRequest  request, boolean create);
+    Optional<Session> get(HttpServletRequest  request, boolean create);
 
-    void flush(HttpServletResponse response, E session);
+    void flush(HttpServletResponse response, Session session);
 
 }
