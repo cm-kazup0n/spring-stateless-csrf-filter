@@ -2,9 +2,9 @@ package jp.classmethod.spring_stateless_csrf_filter.session;
 
 import java.util.Optional;
 
-public interface Session {
+public interface Session<E extends Session> {
 
-    Session put(String key, String value);
+    E put(String key, String value);
 
     Optional<String> get(String key);
 

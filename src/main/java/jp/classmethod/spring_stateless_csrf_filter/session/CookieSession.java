@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CookieSession implements Session {
+public class CookieSession implements Session<CookieSession> {
 
     private final Map<String, String> values;
 
@@ -20,13 +20,13 @@ public class CookieSession implements Session {
         return new CookieSession(values);
     }
 
-    public static Optional<Session> noneOrEmptyOne(boolean empty){
-        return Optional.ofNullable(empty ? new CookieSession(Collections.emptyMap()): null);
+    public static Optional<Session> noneOrEmptyOne(boolean create){
+        return Optional.ofNullable(create ? new CookieSession(Collections.emptyMap()): null);
     }
 
 
     @Override
-    public Session put(String key, String value) {
+    public CookieSession put(String key, String value) {
         Map<String, String> copy = new HashMap<>(values);
         copy.put(key, value);
         return new CookieSession(copy);
