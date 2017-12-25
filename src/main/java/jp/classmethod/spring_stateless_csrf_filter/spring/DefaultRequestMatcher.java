@@ -32,7 +32,7 @@ public class DefaultRequestMatcher implements RequireCsrfProtectionRequestMatche
         matcher.setCachePatterns(true);
     }
 
-    DefaultRequestMatcher(Set<HttpMethod> methodsToMatch, Set<String> pathPatternsToMatch) {
+    public DefaultRequestMatcher(Set<HttpMethod> methodsToMatch, Set<String> pathPatternsToMatch) {
         Assert.notEmpty(methodsToMatch, "methodsToMatch needs to be not empty");
         Assert.notEmpty(pathPatternsToMatch, "pathPatternsToMatch needs to be not empty");
 
@@ -40,7 +40,7 @@ public class DefaultRequestMatcher implements RequireCsrfProtectionRequestMatche
         this.pathPatternsToMatch = Collections.unmodifiableSet(pathPatternsToMatch);
     }
 
-    DefaultRequestMatcher(Set<String> pathPatternsToMatch) {
+    public DefaultRequestMatcher(Set<String> pathPatternsToMatch) {
         this(DEFAULT_METHODS, pathPatternsToMatch);
     }
 
