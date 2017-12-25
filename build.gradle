@@ -7,6 +7,7 @@ apply plugin: 'findbugs'
 
 sourceCompatibility = 1.8
 def springVersion = "4.3.11.RELEASE"
+def springBootVersion = "1.5.9.RELEASE"
 
 repositories {
     mavenCentral()
@@ -15,10 +16,17 @@ repositories {
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile group: 'org.springframework', name: 'spring-test', version: "${springVersion}"
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
     compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
     compile group: 'org.springframework', name: 'spring-webmvc', version: "${springVersion}"
     compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+
+
 }
 
 tasks.withType(FindBugs) {

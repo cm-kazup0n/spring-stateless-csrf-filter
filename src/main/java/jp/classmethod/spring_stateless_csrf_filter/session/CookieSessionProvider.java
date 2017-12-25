@@ -19,7 +19,7 @@ public class CookieSessionProvider implements SessionProvider {
 
     @Override
     public Optional<Session> get(HttpServletRequest request, boolean create) {
-        final Cookie[] cookies = request.getCookies();
+        final Cookie[] cookies = Optional.ofNullable(request.getCookies()).orElse(new Cookie[]{});
         final String cookieName = baker.getCookieName();
         for (Cookie cookie : cookies) {
             if (cookieName.equals(cookie.getName())) {

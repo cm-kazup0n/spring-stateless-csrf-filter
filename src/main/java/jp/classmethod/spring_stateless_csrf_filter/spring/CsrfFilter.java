@@ -4,6 +4,8 @@ import jp.classmethod.spring_stateless_csrf_filter.session.Session;
 import jp.classmethod.spring_stateless_csrf_filter.session.SessionProvider;
 import jp.classmethod.spring_stateless_csrf_filter.token.Token;
 import jp.classmethod.spring_stateless_csrf_filter.token.TokenSigner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class CsrfFilter extends OncePerRequestFilter {
 
     public static final String CSRF_TOKEN_NAME = "__CSRF_TOKEN";
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final AccessDeniedHandler accessDeniedHandler;
     private final RequireCsrfProtectionRequestMatcher matcher;
@@ -42,11 +46,14 @@ public class CsrfFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //pass through
         if (!matcher.matches(request)) {
+            logger.debug("Pass through request " + formatRequest(request));
+            refreshToken(request, response);
             filterChain.doFilter(request, response);
             return;
         }
         //validate
         if (!validateToken(request)) {
+            logger.debug("Validation failed " + formatRequest(request));
             refreshToken(request, response);
             accessDeniedHandler.handleRequest(request, response);
             return;
@@ -68,6 +75,10 @@ public class CsrfFilter extends OncePerRequestFilter {
         final Optional<Token> tokenFromSession = session.get(csrfTokenName).map(s -> Token.SerDe.decodeAndVerify(signer, (String) s));
         final Optional<Token> tokenFromCookie = Optional.ofNullable(request.getParameter(csrfTokenName)).map(s -> Token.SerDe.decodeAndVerify(signer, s));
         return tokenFromSession.flatMap(s -> tokenFromCookie.map(c -> c.compareSafely(s))).orElse(false);
+    }
+
+    String formatRequest(HttpServletRequest request){
+        return request.getMethod() + " " + request.getRequestURI();
     }
 
 
