@@ -16,8 +16,8 @@ public class TokenSignerTest {
         //生成する署名が期待値と同じ
         assertEquals(preDefinedSign, signer.sign(predefinedToken));
 
-        final Token tokenA = Token.generate();
-        final Token tokenB = Token.generate();
+        final Token tokenA = Token.Builder.generate();
+        final Token tokenB = Token.Builder.generate();
         //同じトークンには同じ署名が生成される
         assertEquals(signer.sign(tokenA), signer.sign(tokenA));
         //異なるトークには異なる署名が生成される
@@ -31,7 +31,7 @@ public class TokenSignerTest {
 
     @Test(expected = InvalidTokenException.class)
     public void testVerify_無効な署名(){
-        signer.verify(Token.generate(), preDefinedSign);
+        signer.verify(Token.Builder.generate(), preDefinedSign);
     }
 
     @Test

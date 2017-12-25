@@ -29,9 +29,9 @@ public class CookieSessionTest {
                 .put("key-2", "value")
                 .put("key-3", "value");
 
-        final String serialized = CookieSession.serialize(signer, session);
+        final String serialized = CookieSession.SerDe.serialize(signer, session);
 
-        final CookieSession restored = CookieSession.deserialize(signer, serialized);
+        final CookieSession restored = CookieSession.SerDe.deserialize(signer, serialized);
 
         assertEquals(session.get("key-1").get(), restored.get("key-1").get());
         assertEquals(session.get("key-2").get(), restored.get("key-1").get());

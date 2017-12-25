@@ -15,14 +15,14 @@ public class TokenTest {
     @Test
     public void testGenerate() throws Exception {
         //指定したsecretで生成される
-        assertEquals("SECRET", Token.generate("SECRET").getSecret());
+        assertEquals("SECRET", Token.Builder.generate("SECRET").getSecret());
         //secretが同じでもnonceが異なるので、messageも異なる
-        assertEquals(Token.generate("SECRET").getMessage(), Token.generate("SECRET").getMessage());
+        assertEquals(Token.Builder.generate("SECRET").getMessage(), Token.Builder.generate("SECRET").getMessage());
 
         //引数なしの場合はsercet, messageが毎回違う
         final Set<Token> tokens = IntStream.of(100)
                 .boxed()
-                .map(n->Token.generate())
+                .map(n-> Token.Builder.generate())
                 .collect(Collectors.toSet());
 
         for(Token tokenA: tokens){
@@ -41,35 +41,35 @@ public class TokenTest {
     @Test
     public void testEncodeAndDecode(){
         final Token token = new Token("SECRET", "NONCE");
-        final String encoded = Token.signAndEncode(signer, token);
+        final String encoded = Token.SerDe.signAndEncode(signer, token);
         //encode
         assertEquals("f8b28a95368841901a1a3ed9eb2fb3b737994ac0-NONCE-SECRET", encoded);
 
         //decode
-        final Token decodedToken = Token.decodeAndVerify(signer, encoded);
+        final Token decodedToken = Token.SerDe.decodeAndVerify(signer, encoded);
         assertEquals(token.getMessage(), decodedToken.getMessage());
         assertEquals(token.getSecret(), decodedToken.getSecret());
     }
 
     @Test(expected = InvalidTokenException.class)
     public void testDecodeFailWithFalseMessage(){
-        Token.decodeAndVerify(signer, "f8b28a95368841901a1a3ed9eb2fb3b737994ac0-NONCEA-SECRET");
+        Token.SerDe.decodeAndVerify(signer, "f8b28a95368841901a1a3ed9eb2fb3b737994ac0-NONCEA-SECRET");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testDecodeFailWithInvalidFormat(){
-        Token.decodeAndVerify(signer, "f8b28a95368841901a1a3ed9eb2fb3b737994ac0-NONCESECRET");
+        Token.SerDe.decodeAndVerify(signer, "f8b28a95368841901a1a3ed9eb2fb3b737994ac0-NONCESECRET");
     }
 
     @Test
     public void testDecodeWithDashInMessage(){
         final Token token = new Token("--SECRET--", "NONCE");
-        final String encoded = Token.signAndEncode(signer, token);
+        final String encoded = Token.SerDe.signAndEncode(signer, token);
         //encode
         assertEquals("8b8239a67ab7952758414019c368fce090df174e-NONCE---SECRET--", encoded);
 
         //decode
-        final Token decodedToken = Token.decodeAndVerify(signer, encoded);
+        final Token decodedToken = Token.SerDe.decodeAndVerify(signer, encoded);
         assertEquals(token.getMessage(), decodedToken.getMessage());
         assertEquals(token.getSecret(), decodedToken.getSecret());
     }

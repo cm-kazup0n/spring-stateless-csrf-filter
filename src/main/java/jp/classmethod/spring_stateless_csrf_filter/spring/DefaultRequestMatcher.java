@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DefaultRequestMatacher implements RequireCsrfProtectionRequestMatcher{
+public class DefaultRequestMatcher implements RequireCsrfProtectionRequestMatcher{
 
 
     private static final Set<HttpMethod> DEFAULT_METHODS;
@@ -30,7 +30,7 @@ public class DefaultRequestMatacher implements RequireCsrfProtectionRequestMatch
         matcher.setCachePatterns(true);
     }
 
-    DefaultRequestMatacher(Set<HttpMethod> methodsToMatch, Set<String> pathPatternsToMatch) {
+    DefaultRequestMatcher(Set<HttpMethod> methodsToMatch, Set<String> pathPatternsToMatch) {
         Assert.notEmpty(methodsToMatch, "methodsToMatch needs to be not empty");
         Assert.notEmpty(pathPatternsToMatch, "pathPatternsToMatch needs to be not empty");
 
@@ -38,7 +38,7 @@ public class DefaultRequestMatacher implements RequireCsrfProtectionRequestMatch
         this.pathPatternsToMatch = Collections.unmodifiableSet(pathPatternsToMatch);
     }
 
-    DefaultRequestMatacher(Set<String> pathPatternsToMatch){
+    DefaultRequestMatcher(Set<String> pathPatternsToMatch){
         this(DEFAULT_METHODS, pathPatternsToMatch);
     }
 
@@ -75,7 +75,7 @@ public class DefaultRequestMatacher implements RequireCsrfProtectionRequestMatch
         }
 
         public static RequireCsrfProtectionRequestMatcher create(String...pathPatterns){
-            return new DefaultRequestMatacher(new HashSet<>(Arrays.asList(pathPatterns)));
+            return new DefaultRequestMatcher(new HashSet<>(Arrays.asList(pathPatterns)));
         }
 
         public Builder addMethods(HttpMethod...methods){
@@ -91,7 +91,7 @@ public class DefaultRequestMatacher implements RequireCsrfProtectionRequestMatch
         }
 
         public RequireCsrfProtectionRequestMatcher build(){
-            return new DefaultRequestMatacher(methodsToMatch, pathPatternsToMatch);
+            return new DefaultRequestMatcher(methodsToMatch, pathPatternsToMatch);
         }
 
 

@@ -9,7 +9,7 @@ public class DefaultRequestMatacherTest {
 
     @Test
     public void testMethodMatches(){
-        final RequireCsrfProtectionRequestMatcher matcher = DefaultRequestMatacher.Builder.create("/*");
+        final RequireCsrfProtectionRequestMatcher matcher = DefaultRequestMatcher.Builder.create("/*");
         //POST, PUT, DELETE, PATCH are to inspect.
         assertTrue(matcher.matches(new MockHttpServletRequest("POST", "/")));
         assertTrue(matcher.matches(new MockHttpServletRequest("PUT", "/")));
@@ -25,7 +25,7 @@ public class DefaultRequestMatacherTest {
 
     @Test
     public void testPatternMatches(){
-        final RequireCsrfProtectionRequestMatcher matcher = DefaultRequestMatacher.Builder.create(
+        final RequireCsrfProtectionRequestMatcher matcher = DefaultRequestMatcher.Builder.create(
                 "/person/*/items",
                 "/cat/",
                 "/dog/*",
