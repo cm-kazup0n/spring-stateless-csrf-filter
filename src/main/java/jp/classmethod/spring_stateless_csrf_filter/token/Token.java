@@ -1,5 +1,7 @@
 package jp.classmethod.spring_stateless_csrf_filter.token;
 
+import org.apache.commons.codec.binary.Hex;
+
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -62,7 +64,7 @@ public class Token {
             byte[] bytes = new byte[12];
             try {
                 SecureRandom.getInstanceStrong().nextBytes(bytes);
-                return generate(new String(bytes, StandardCharsets.UTF_8));
+                return generate(Hex.encodeHexString(bytes));
             } catch (NoSuchAlgorithmException e) {
                 throw new TokenGenerationException(e);
             }
