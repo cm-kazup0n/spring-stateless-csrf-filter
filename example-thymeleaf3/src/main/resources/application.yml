@@ -1,0 +1,5 @@
+stateless_csrf:
+  csrf:
+   secret: key
+   csrfTokenName: __CSRF
+   cookieName: __SESSION

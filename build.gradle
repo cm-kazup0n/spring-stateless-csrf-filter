@@ -1,29 +1,79 @@
 group 'jp.classmethod'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
-apply plugin: 'pmd'
-apply plugin: 'findbugs'
-
-sourceCompatibility = 1.8
 def springVersion = "4.3.11.RELEASE"
+def springBootVersion = "1.5.9.RELEASE"
 
-repositories {
-    mavenCentral()
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'pmd'
+    apply plugin: 'findbugs'
+
+    sourceCompatibility = 1.8
+
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testCompile 'junit:junit:4.12'
+        testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+    }
+
+    tasks.withType(FindBugs) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    configurations {
+        providedCompile
+    }
+
+    sourceSets {
+        main.compileClasspath += configurations.providedCompile
+        test.compileClasspath += configurations.providedCompile
+        test.runtimeClasspath += configurations.providedCompile
+    }
+
 }
 
-dependencies {
-    testCompile 'junit:junit:4.12'
-    testCompile group: 'org.springframework', name: 'spring-test', version: "${springVersion}"
-    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
-    compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
-    compile group: 'org.springframework', name: 'spring-webmvc', version: "${springVersion}"
-    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
-}
+project(':stateless-csrf-filter-core') {
+    dependencies {
+        compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
+        compile group: 'org.springframework', name: 'spring-webmvc', version: "${springVersion}"
+        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+        providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
 
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
+    }
+}
+project(':thymeleaf3') {
+    def thymeLeafVersion = "3.0.9.RELEASE"
+    dependencies {
+        compile project(':stateless-csrf-filter-core')
+        compile group: 'org.thymeleaf', name: 'thymeleaf', version: "${thymeLeafVersion}"
+        compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: "${thymeLeafVersion}"
+        providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+
+        testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
+    }
+}
+project(':thymeleaf2') {
+    def thymeLeafVersion = "2.1.4.RELEASE"
+    dependencies {
+        compile project(':stateless-csrf-filter-core')
+        compile group: 'org.thymeleaf', name: 'thymeleaf', version: "${thymeLeafVersion}"
+        compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: "${thymeLeafVersion}"
+    }
+}
+project(':example-thymeleaf3') {
+    dependencies {
+        compile project(":thymeleaf3")
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: "${springBootVersion}"
     }
 }

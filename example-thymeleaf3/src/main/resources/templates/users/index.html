@@ -1,0 +1,22 @@
+<div layout:decorator="layout">
+    <th:block layout:fragment="layout-content">
+        <h1>Users</h1>
+        <ul>
+            <li th:each="user : ${users}">
+                <a th:href="'/users/' + ${user.id}" th:text="${user.name}"/>
+            </li>
+        </ul>
+        <h2>Create User</h2>
+        <form th:action="@{/users}" method="post">
+            <cm:csrf/>
+            <div class="form-group">
+                <label>Name:
+                    <input th:name="name" th:type="text"/>
+                </label>
+                <input th:type="submit"/>
+            </div>
+
+        </form>
+    </th:block>
+</div>
+
