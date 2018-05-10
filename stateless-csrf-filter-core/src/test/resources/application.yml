@@ -1,3 +1,0 @@
-csrf:
-  secret: key
-  cookieName: __CSRF

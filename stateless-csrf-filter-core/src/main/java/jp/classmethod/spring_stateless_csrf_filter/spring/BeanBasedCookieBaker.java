@@ -9,6 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public class BeanBasedCookieBaker extends CookieGenerator implements SessionCookieBaker {
 
+    {
+        setCookieSecure(true);
+        setCookieMaxAge(-1);
+        setCookieHttpOnly(true);
+    }
+
     @Override
     public void addCookie(HttpServletResponse response, TokenSigner signer, CookieSession session) {
         addCookie(response, CookieSession.SerDe.serialize(signer, session));

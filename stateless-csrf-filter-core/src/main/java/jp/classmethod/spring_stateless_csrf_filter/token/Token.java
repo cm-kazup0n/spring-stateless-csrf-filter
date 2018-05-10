@@ -2,9 +2,9 @@ package jp.classmethod.spring_stateless_csrf_filter.token;
 
 import org.apache.commons.codec.binary.Hex;
 
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Optional;
 
 public class Token {
 
@@ -53,6 +53,16 @@ public class Token {
             signer.verify(token, sign);
             return token;
         }
+
+
+        public static Optional<Token> decodeAndVerifyByOptional(TokenSigner signer, final String raw) {
+            try {
+                return Optional.of(decodeAndVerify(signer, raw));
+            } catch (InvalidTokenException e) {
+                return Optional.empty();
+            }
+        }
+
     }
 
     public static class Builder {
