@@ -3,6 +3,9 @@ version '1.0-SNAPSHOT'
 
 def springVersion = "4.3.11.RELEASE"
 def springBootVersion = "1.5.9.RELEASE"
+def thymeLeaf2Version = "2.1.4.RELEASE"
+def thymeLeaf3Version = "3.0.9.RELEASE"
+def servletAPIVersion = "3.1.0'"
 
 allprojects {
 
@@ -47,32 +50,31 @@ project(':stateless-csrf-filter-core') {
         compile group: 'org.springframework', name: 'spring-webmvc', version: "${springVersion}"
         compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
         compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-        providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+        providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: "${servletAPIVersion}"
 
     }
 }
 project(':thymeleaf3') {
-    def thymeLeafVersion = "3.0.9.RELEASE"
     dependencies {
         compile project(':stateless-csrf-filter-core')
-        compile group: 'org.thymeleaf', name: 'thymeleaf', version: "${thymeLeafVersion}"
-        compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: "${thymeLeafVersion}"
-        providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+        compile group: 'org.thymeleaf', name: 'thymeleaf', version: "${thymeLeaf3Version}"
+        compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: "${thymeLeaf3Version}"
+        providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: "${servletAPIVersion}"
 
         testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
     }
 }
 project(':thymeleaf2') {
-    def thymeLeafVersion = "2.1.4.RELEASE"
     dependencies {
         compile project(':stateless-csrf-filter-core')
-        compile group: 'org.thymeleaf', name: 'thymeleaf', version: "${thymeLeafVersion}"
-        compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: "${thymeLeafVersion}"
+        compile group: 'org.thymeleaf', name: 'thymeleaf', version: "${thymeLeaf2Version}"
+        compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: "${thymeLeaf2Version}"
     }
 }
 project(':example-thymeleaf3') {
     dependencies {
         compile project(":thymeleaf3")
+        compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.3.0'
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: "${springBootVersion}"
     }
