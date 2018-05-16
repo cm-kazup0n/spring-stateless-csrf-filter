@@ -42,6 +42,6 @@ public class CsrfTokenValidationInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
         final HandlerMethod handlerMethod = (HandlerMethod) handler;
-        return handlerMethod.hasMethodAnnotation(ProtectedByCsrfFilter.class);
+        return handlerMethod.getMethodAnnotation(ProtectedByCsrfFilter.class) != null;
     }
 }

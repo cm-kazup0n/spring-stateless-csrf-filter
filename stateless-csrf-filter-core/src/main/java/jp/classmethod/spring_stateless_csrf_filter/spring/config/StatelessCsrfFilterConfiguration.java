@@ -24,11 +24,15 @@ public class StatelessCsrfFilterConfiguration {
     @Value("${stateless_csrf.csrf.pathPatternsToMatch:}")
     protected String[] pathPatternsToMatch;
 
+    @Value("${stateless_csrf.csrf.secureCookie:true}")
+    protected  boolean isCookieSecure;
+
 
     @Bean
     public SessionProvider sessionProvider() {
         final BeanBasedCookieBaker cookieBaker = new BeanBasedCookieBaker();
         cookieBaker.setCookieName(cookieName);
+        cookieBaker.setCookieSecure(isCookieSecure);
 
         return new CookieSessionProvider(cookieBaker, tokenSigner());
     }
