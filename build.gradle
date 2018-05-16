@@ -84,6 +84,7 @@ project(':example-thymeleaf3') {
 project(':example-thymeleaf2') {
     dependencies {
         compile project(":thymeleaf2")
+        compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '1.4.0'
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: "${springBootVersion}"
     }

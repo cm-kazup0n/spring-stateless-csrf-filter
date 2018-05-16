@@ -4,6 +4,7 @@ import jp.classmethod.spring_stateless_csrf_filter.session.CsrfTokenFacade;
 import jp.classmethod.spring_stateless_csrf_filter.spring.config.CsrfInterceptorConfiguration;
 import jp.classmethod.spring_stateless_csrf_filter.spring.interceptor.CsrfTokenValidationInterceptor;
 import jp.classmethod.spring_stateless_csrf_filter.thymeleaf2.CsrfTokenDialect;
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,11 @@ public class Config extends WebMvcConfigurerAdapter {
     @Bean
     public IDialect csrfTokenDialect() {
         return new CsrfTokenDialect(csrfTokenFacade);
+    }
+
+    @Bean
+    public IDialect layoutDialect(){
+        return new LayoutDialect();
     }
 
 

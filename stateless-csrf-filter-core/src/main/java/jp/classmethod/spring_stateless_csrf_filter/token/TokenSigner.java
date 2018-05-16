@@ -33,7 +33,7 @@ public class TokenSigner {
     void verify(final Token token, String sign) {
         final String expected = sign(token);
         if (!compareSafely(expected, sign)) {
-            throw new InvalidTokenException();
+            throw new InvalidTokenException("Invalid token.");
         }
     }
 
