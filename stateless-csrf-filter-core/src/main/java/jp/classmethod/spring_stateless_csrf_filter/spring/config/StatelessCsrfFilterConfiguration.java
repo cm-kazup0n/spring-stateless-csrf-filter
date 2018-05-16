@@ -25,7 +25,7 @@ public class StatelessCsrfFilterConfiguration {
     protected String[] pathPatternsToMatch;
 
     @Value("${stateless_csrf.csrf.secureCookie:true}")
-    protected  boolean isCookieSecure;
+    protected boolean isCookieSecure;
 
 
     @Bean

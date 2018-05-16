@@ -6,10 +6,11 @@ import static org.junit.Assert.*;
 
 public class TokenSignerTest {
 
-    private final TokenSigner signer = new TokenSigner("SECRET_KEY");
+    private static final String preDefinedSign = "f8b28a95368841901a1a3ed9eb2fb3b737994ac0";
 
-    private final String preDefinedSign = "f8b28a95368841901a1a3ed9eb2fb3b737994ac0";
-    private final Token predefinedToken = new Token("SECRET", "NONCE");
+    private static final TokenSigner signer = new TokenSigner("SECRET_KEY");
+
+    private static final Token predefinedToken = new Token("SECRET", "NONCE");
 
     @Test
     public void testSign() {

@@ -65,7 +65,7 @@ public class CsrfFilterTest {
 
         //verify
         verify(filterChain).doFilter(request, response);
-        verify(sessionProvider, never()).flush(response, session);
+        verify(sessionProvider).flush(response, session);
     }
 
     @Test
