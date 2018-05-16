@@ -24,14 +24,13 @@ public class Config extends WebMvcConfigurerAdapter {
     private CsrfTokenValidationInterceptor tokenValidationInterceptor;
 
 
-
     @Bean
     public IDialect csrfTokenDialect() {
         return new CsrfTokenDialect(csrfTokenFacade);
     }
 
     @Bean
-    public IDialect layoutDialect(){
+    public IDialect layoutDialect() {
         return new LayoutDialect();
     }
 

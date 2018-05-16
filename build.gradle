@@ -49,9 +49,9 @@ project(':stateless-csrf-filter-core') {
         compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
         compile group: 'org.springframework', name: 'spring-webmvc', version: "${springVersion}"
         compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-        compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+        providedCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
         providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: "${servletAPIVersion}"
-        testCompile group: 'org.springframework', name: 'spring-mock', version: '2.0.8'
+        testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
 
     }
 }
