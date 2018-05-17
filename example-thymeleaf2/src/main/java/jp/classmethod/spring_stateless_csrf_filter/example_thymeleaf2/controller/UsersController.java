@@ -1,7 +1,7 @@
-package jp.classmethod.spring_stateless_csrf_filter.example.controller;
+package jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf2.controller;
 
-import jp.classmethod.spring_stateless_csrf_filter.example.model.entity.User;
-import jp.classmethod.spring_stateless_csrf_filter.example.model.repository.UserRepository;
+import jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf2.model.entity.User;
+import jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf2.model.repository.UserRepository;
 import jp.classmethod.spring_stateless_csrf_filter.spring.interceptor.ProtectedByCsrfFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

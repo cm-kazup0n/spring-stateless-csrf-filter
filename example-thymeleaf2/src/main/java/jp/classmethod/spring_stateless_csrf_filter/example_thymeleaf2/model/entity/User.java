@@ -1,4 +1,4 @@
-package jp.classmethod.spring_stateless_csrf_filter.example.model.entity;
+package jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf2.model.entity;
 
 import java.util.UUID;
 
