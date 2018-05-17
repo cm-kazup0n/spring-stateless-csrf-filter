@@ -1,6 +1,6 @@
-package jp.classmethod.spring_stateless_csrf_filter.example.controller;
+package jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf3.controller;
 
-import jp.classmethod.spring_stateless_csrf_filter.example.model.entity.User;
+import jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf3.model.entity.User;
 
 public class UserForm {
 

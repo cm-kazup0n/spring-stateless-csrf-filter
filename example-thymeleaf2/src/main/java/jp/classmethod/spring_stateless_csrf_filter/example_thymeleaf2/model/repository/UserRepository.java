@@ -1,7 +1,7 @@
-package jp.classmethod.spring_stateless_csrf_filter.example.model.repository;
+package jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf2.model.repository;
 
-import jp.classmethod.spring_stateless_csrf_filter.example.infra.EntityStore;
-import jp.classmethod.spring_stateless_csrf_filter.example.model.entity.User;
+import jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf2.infra.EntityStore;
+import jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf2.model.entity.User;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

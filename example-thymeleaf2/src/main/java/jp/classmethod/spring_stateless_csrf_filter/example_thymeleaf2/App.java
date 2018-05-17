@@ -1,4 +1,4 @@
-package jp.classmethod.spring_stateless_csrf_filter.example;
+package jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

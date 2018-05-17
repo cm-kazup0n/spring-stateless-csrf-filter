@@ -1,4 +1,4 @@
-package jp.classmethod.spring_stateless_csrf_filter.example.infra;
+package jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf3.infra;
 
 import java.util.Collection;
 import java.util.Optional;

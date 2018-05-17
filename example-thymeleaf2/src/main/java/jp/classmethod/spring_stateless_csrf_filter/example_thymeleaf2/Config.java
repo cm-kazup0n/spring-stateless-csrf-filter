@@ -1,4 +1,4 @@
-package jp.classmethod.spring_stateless_csrf_filter.example;
+package jp.classmethod.spring_stateless_csrf_filter.example_thymeleaf2;
 
 import jp.classmethod.spring_stateless_csrf_filter.session.CsrfTokenFacade;
 import jp.classmethod.spring_stateless_csrf_filter.spring.config.CsrfInterceptorConfiguration;
