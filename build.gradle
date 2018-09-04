@@ -23,7 +23,7 @@ allprojects {
 
     dependencies {
         testCompile 'junit:junit:4.12'
-        testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+        testCompile group: 'org.mockito', name: 'mockito-core', version: '2.18.3'
     }
 
     tasks.withType(FindBugs) {
@@ -65,6 +65,7 @@ project(':thymeleaf3') {
         providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: "${servletAPIVersion}"
 
         testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBoot1Version}"
+        testCompile group: 'org.thymeleaf', name: 'thymeleaf-testing', version: "3.0.3.RELEASE"
     }
 }
 project(':thymeleaf2') {
