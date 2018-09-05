@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 public interface RequireCsrfProtectionRequestMatcher {
 
     /**
-     *
      * @param request
      * @return チェックする場合 true
      */

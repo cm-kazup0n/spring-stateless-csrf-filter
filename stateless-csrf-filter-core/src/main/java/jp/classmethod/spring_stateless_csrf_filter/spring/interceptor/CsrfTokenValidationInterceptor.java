@@ -43,6 +43,7 @@ public class CsrfTokenValidationInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * 処理するリクエストの検証を行う必要があるかどうかチェックする
+     *
      * @param handler
      * @return 処理する必要がある場合 true
      */

@@ -15,6 +15,7 @@ final class URLEncodeSupport {
 
     /**
      * sをURLエンコードする
+     *
      * @param s エンコードする文字列
      * @return エンコード済みの文字列
      */

@@ -31,7 +31,7 @@ public class CookieSessionProvider implements SessionProvider {
             }
         }
         //なければ必要に応じて生成する
-        return Optional.ofNullable( create ? CookieSession.create(): null);
+        return Optional.ofNullable(create ? CookieSession.create() : null);
     }
 
     @Override

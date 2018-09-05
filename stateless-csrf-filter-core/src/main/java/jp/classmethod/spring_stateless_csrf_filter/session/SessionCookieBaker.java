@@ -11,9 +11,10 @@ public interface SessionCookieBaker {
 
     /**
      * responseへsessionのクッキーを追加する
+     *
      * @param response 追加先のレスポンス
-     * @param signer 署名
-     * @param session セッション
+     * @param signer   署名
+     * @param session  セッション
      */
     void addCookie(HttpServletResponse response, TokenSigner signer, CookieSession session);
 

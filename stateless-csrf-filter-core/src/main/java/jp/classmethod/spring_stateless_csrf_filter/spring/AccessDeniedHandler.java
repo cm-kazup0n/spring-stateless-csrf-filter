@@ -10,6 +10,7 @@ public interface AccessDeniedHandler {
 
     /**
      * トークン検証失敗した際の応答をする
+     *
      * @param request
      * @param response
      */

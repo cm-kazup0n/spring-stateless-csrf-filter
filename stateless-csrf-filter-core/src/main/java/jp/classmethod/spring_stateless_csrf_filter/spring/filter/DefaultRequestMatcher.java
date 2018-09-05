@@ -39,13 +39,13 @@ public class DefaultRequestMatcher implements RequireCsrfProtectionRequestMatche
      */
     private final Set<String> pathPatternsToMatch;
     private final AntPathMatcher matcher = new AntPathMatcher();
+
     {
         matcher.setCachePatterns(true);
     }
 
     /**
-     *
-     * @param methodsToMatch  マッチ対象のメソッド
+     * @param methodsToMatch      マッチ対象のメソッド
      * @param pathPatternsToMatch マッチ対象のパス(antのパスマッチャーの記法で指定できる)
      */
     public DefaultRequestMatcher(Set<HttpMethod> methodsToMatch, Set<String> pathPatternsToMatch) {
@@ -91,6 +91,7 @@ public class DefaultRequestMatcher implements RequireCsrfProtectionRequestMatche
 
         /**
          * フルカスタマイズしたマッチャーを生成するビルダー
+         *
          * @return ビルダー
          */
         public static Builder custom() {
@@ -99,6 +100,7 @@ public class DefaultRequestMatcher implements RequireCsrfProtectionRequestMatche
 
         /**
          * パスだけを指定するビルダー
+         *
          * @param pathPatterns マッチするパターン
          * @return ビルダー
          */
@@ -108,6 +110,7 @@ public class DefaultRequestMatcher implements RequireCsrfProtectionRequestMatche
 
         /**
          * マッチするメソッドを追加する
+         *
          * @param methods
          * @return
          */
@@ -120,6 +123,7 @@ public class DefaultRequestMatcher implements RequireCsrfProtectionRequestMatche
 
         /**
          * マッチするパターンを追加する
+         *
          * @param pattern
          * @return
          */
@@ -130,6 +134,7 @@ public class DefaultRequestMatcher implements RequireCsrfProtectionRequestMatche
 
         /**
          * マッチャーを生成する
+         *
          * @return
          */
         public RequireCsrfProtectionRequestMatcher build() {

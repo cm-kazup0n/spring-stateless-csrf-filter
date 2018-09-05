@@ -10,7 +10,8 @@ public interface Session {
 
     /**
      * keyに紐づけてvalueを保存する
-     * @param key キー
+     *
+     * @param key   キー
      * @param value 値
      * @return 値を追加したSession
      */
@@ -18,6 +19,7 @@ public interface Session {
 
     /**
      * 値を取得する
+     *
      * @param key
      * @return 値のOption
      */

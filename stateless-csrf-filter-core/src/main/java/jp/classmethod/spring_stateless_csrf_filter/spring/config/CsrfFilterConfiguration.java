@@ -13,6 +13,9 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Arrays;
 import java.util.HashSet;
 
+/**
+ * フィルターによる検証を行う場合の設定
+ */
 @Configuration
 public class CsrfFilterConfiguration extends StatelessCsrfFilterConfiguration {
 

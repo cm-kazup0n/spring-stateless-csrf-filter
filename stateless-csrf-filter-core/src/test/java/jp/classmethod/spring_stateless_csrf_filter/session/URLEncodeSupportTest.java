@@ -2,12 +2,12 @@ package jp.classmethod.spring_stateless_csrf_filter.session;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class URLEncodeSupportTest {
 
     @Test
-    public void encode_then_decode(){
+    public void encode_then_decode() {
         final String expected = "アイウエオ";
 
         final String encoded = URLEncodeSupport.encode(expected);

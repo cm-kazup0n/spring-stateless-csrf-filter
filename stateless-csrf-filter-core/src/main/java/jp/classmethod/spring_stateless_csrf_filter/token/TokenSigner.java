@@ -20,6 +20,7 @@ public class TokenSigner {
 
     /**
      * a,bを比較する。２つの文字列の長さ違いによらず比較時間は一定になる
+     *
      * @param a
      * @param b
      * @return 一致している場合 true
@@ -48,6 +49,7 @@ public class TokenSigner {
 
     /**
      * tokenから署名を生成し, signと比較する
+     *
      * @param token
      * @param sign
      * @throws InvalidTokenException 検証に失敗した場合

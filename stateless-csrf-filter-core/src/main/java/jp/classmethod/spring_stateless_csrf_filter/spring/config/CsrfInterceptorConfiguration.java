@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.MappedInterceptor;
 
+/**
+ * インターセプターによる検証を行う場合の設定
+ */
 @Configuration
 public class CsrfInterceptorConfiguration extends StatelessCsrfFilterConfiguration {
 

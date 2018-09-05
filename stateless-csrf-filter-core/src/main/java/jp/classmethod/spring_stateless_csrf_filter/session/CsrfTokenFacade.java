@@ -31,10 +31,11 @@ public class CsrfTokenFacade {
     }
 
     /**
-     *  requestから既存のセッションを取得(or 生成）してCSRFトークンを生成する
-     * @param request 処理中のリクエスト
+     * requestから既存のセッションを取得(or 生成）してCSRFトークンを生成する
+     *
+     * @param request  処理中のリクエスト
      * @param response 処理中のレスポンス
-     * @param create trueならセッションが未生成の場合は生成する
+     * @param create   trueならセッションが未生成の場合は生成する
      * @return CSRFトークン
      */
     public Optional<String> populateCsrfToken(final HttpServletRequest request, final HttpServletResponse response, final boolean create) {
@@ -50,6 +51,7 @@ public class CsrfTokenFacade {
 
     /**
      * リクエストとして受信したトークンのバリデーションを行う
+     *
      * @param request
      * @return バリデーション結果 trueなら有効なトークン
      */

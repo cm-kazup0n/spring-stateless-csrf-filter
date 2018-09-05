@@ -20,6 +20,7 @@ public class CookieSession implements Session {
 
     /**
      * 空のセッションを生成する
+     *
      * @return Session
      */
     public static Session create() {
@@ -47,7 +48,8 @@ public class CookieSession implements Session {
 
         /**
          * セッションをCookieとして使用可能な文字列に変換する
-         * @param signer 署名
+         *
+         * @param signer  署名
          * @param session 保存するセッション
          * @return Cookieの値
          */
@@ -66,8 +68,9 @@ public class CookieSession implements Session {
 
         /**
          * Cookieの値からセッションを復元する
+         *
          * @param signer 署名
-         * @param raw Cookieで指定されている値
+         * @param raw    Cookieで指定されている値
          * @return session
          */
         public static CookieSession deserialize(TokenSigner signer, String raw) {

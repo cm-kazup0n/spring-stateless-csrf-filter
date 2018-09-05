@@ -40,6 +40,7 @@ public class Token {
 
     /**
      * 他のトークンと比較する
+     *
      * @param other
      * @return 一致した場合true
      */
@@ -57,8 +58,9 @@ public class Token {
 
         /**
          * 署名付きのトークン文字列を生成する
+         *
          * @param signer 署名
-         * @param token 署名するトークン
+         * @param token  署名するトークン
          * @return 署名付きのトークン文字列
          */
         public static String signAndEncode(TokenSigner signer, final Token token) {
@@ -67,8 +69,9 @@ public class Token {
 
         /**
          * 署名付きのトークン文字列を検証,デコードする
+         *
          * @param signer 署名
-         * @param raw 署名付きトークン
+         * @param raw    署名付きトークン
          * @return トークン
          * @throws InvalidTokenException トークンが不正な場合
          */
@@ -88,8 +91,9 @@ public class Token {
 
         /**
          * 署名付きのトークン文字列を検証,デコードする
+         *
          * @param signer 署名
-         * @param raw 署名付きトークン
+         * @param raw    署名付きトークン
          * @return トークン. 検証に失敗した場合はempty
          */
         public static Optional<Token> decodeAndVerifyByOptional(TokenSigner signer, final String raw) {
@@ -112,6 +116,7 @@ public class Token {
 
         /**
          * ペイロードにランダムな値を含むトークンを生成する
+         *
          * @return トークン
          */
         public static final Token generate() {
@@ -126,6 +131,7 @@ public class Token {
 
         /**
          * 指定したペイロードでトークンを生成する
+         *
          * @param payload
          * @return トークン
          */

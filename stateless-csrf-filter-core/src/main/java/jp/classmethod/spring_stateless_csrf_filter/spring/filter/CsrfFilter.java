@@ -71,6 +71,7 @@ public class CsrfFilter extends OncePerRequestFilter {
 
     /**
      * セッションに保存するトークンを更新する
+     *
      * @param request
      * @param response
      */
@@ -82,6 +83,7 @@ public class CsrfFilter extends OncePerRequestFilter {
 
     /**
      * リクエストを検証する
+     *
      * @param request
      * @return 検証に成功した場合 true
      */
