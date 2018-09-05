@@ -31,6 +31,7 @@ public class CsrfTokenValidationInterceptor extends HandlerInterceptorAdapter {
             logger.debug("Intercept request: {} {}", request.getMethod(), request.getRequestURI());
             //チェックが必要な場合は検証に成功した時以外はアクセス拒否
             final boolean valid = csrfTokenFacade.validate(request).orElse(false);
+            csrfTokenFacade.populateCsrfToken(request, response, true);
             if (!valid) {
                 logger.debug("Request denied; request: {} {} ", request.getMethod(), request.getRequestURI());
                 accessDeniedHandler.handleRequest(request, response);

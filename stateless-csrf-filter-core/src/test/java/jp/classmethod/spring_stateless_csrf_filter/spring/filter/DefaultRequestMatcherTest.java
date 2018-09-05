@@ -6,7 +6,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class DefaultRequestMatacherTest {
+public class DefaultRequestMatcherTest {
 
     @Test
     public void testMethodMatches() {
