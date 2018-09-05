@@ -7,6 +7,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Cookieに情報を保存するセッションの実装
+ */
 public class CookieSession implements Session {
 
     private final Map<String, String> values;
@@ -15,8 +18,12 @@ public class CookieSession implements Session {
         this.values = Collections.unmodifiableMap(values);
     }
 
-    public static Optional<Session> noneOrEmptyOne(boolean create) {
-        return Optional.ofNullable(create ? new CookieSession(Collections.emptyMap()) : null);
+    /**
+     * 空のセッションを生成する
+     * @return Session
+     */
+    public static Session create() {
+        return new CookieSession(Collections.emptyMap());
     }
 
 

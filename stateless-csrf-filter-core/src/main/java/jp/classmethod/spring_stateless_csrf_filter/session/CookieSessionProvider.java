@@ -26,7 +26,7 @@ public class CookieSessionProvider implements SessionProvider {
                 return Optional.of(CookieSession.SerDe.deserialize(signer, cookie.getValue()));
             }
         }
-        return CookieSession.noneOrEmptyOne(create);
+        return Optional.ofNullable( create ? CookieSession.create(): null);
     }
 
     @Override

@@ -7,15 +7,10 @@ import static org.junit.Assert.*;
 
 public class CookieSessionTest {
 
-    @Test
-    public void testNoneOrEmptyOne() {
-        assertTrue(CookieSession.noneOrEmptyOne(true).isPresent());
-        assertFalse(CookieSession.noneOrEmptyOne(false).isPresent());
-    }
 
     @Test
     public void testPutAndGet() {
-        CookieSession session = (CookieSession) CookieSession.noneOrEmptyOne(true).get().put("key", "value");
+        CookieSession session = (CookieSession) CookieSession.create().put("key", "value");
         assertTrue(session.get("key").isPresent());
         assertFalse(session.get("nokey").isPresent());
     }
@@ -24,7 +19,7 @@ public class CookieSessionTest {
     public void testSerDe() {
         final TokenSigner signer = new TokenSigner("SECRET");
         final CookieSession session =
-                (CookieSession) CookieSession.noneOrEmptyOne(true).get()
+                (CookieSession) CookieSession.create()
                         .put("key-1", "value")
                         .put("key-2", "value")
                         .put("key-3", "value");
