@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+/**
+ * CookieSessionのプロバイダ
+ */
 public class CookieSessionProvider implements SessionProvider {
 
     private final SessionCookieBaker baker;
@@ -19,6 +22,7 @@ public class CookieSessionProvider implements SessionProvider {
 
     @Override
     public Optional<Session> get(HttpServletRequest request, boolean create) {
+        //既存のクッキーにキーが一致するものがあればそれを返す
         final Cookie[] cookies = Optional.ofNullable(request.getCookies()).orElse(new Cookie[]{});
         final String cookieName = baker.getCookieName();
         for (Cookie cookie : cookies) {
@@ -26,6 +30,7 @@ public class CookieSessionProvider implements SessionProvider {
                 return Optional.of(CookieSession.SerDe.deserialize(signer, cookie.getValue()));
             }
         }
+        //なければ必要に応じて生成する
         return Optional.ofNullable( create ? CookieSession.create(): null);
     }
 
