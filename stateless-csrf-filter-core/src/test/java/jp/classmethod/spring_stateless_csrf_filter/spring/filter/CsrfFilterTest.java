@@ -1,5 +1,6 @@
 package jp.classmethod.spring_stateless_csrf_filter.spring.filter;
 
+import jp.classmethod.spring_stateless_csrf_filter.session.CsrfTokenFacade;
 import jp.classmethod.spring_stateless_csrf_filter.session.Session;
 import jp.classmethod.spring_stateless_csrf_filter.session.SessionProvider;
 import jp.classmethod.spring_stateless_csrf_filter.spring.AccessDeniedHandler;
@@ -7,6 +8,10 @@ import jp.classmethod.spring_stateless_csrf_filter.token.Token;
 import jp.classmethod.spring_stateless_csrf_filter.token.TokenSigner;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -19,37 +24,26 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class CsrfFilterTest {
 
     private CsrfFilter csrfFilter;
+
+    @Mock
     private RequireCsrfProtectionRequestMatcher matcher;
-    private SessionProvider sessionProvider;
-    private Session session;
-    private TokenSigner tokenSigner;
+
+    @Mock
+    private CsrfTokenFacade csrfTokenFacade;
+
+    @Mock
     private AccessDeniedHandler accessDeniedHandler;
+
+    @Mock
     private FilterChain filterChain;
-    private Token token = Token.Builder.generate();
-    private String rawToken;
 
     @Before
     public void setUp() {
-
-        matcher = mock(RequireCsrfProtectionRequestMatcher.class);
-        sessionProvider = mock(SessionProvider.class);
-        tokenSigner = new TokenSigner("SECRET");
-        accessDeniedHandler = mock(AccessDeniedHandler.class);
-        filterChain = mock(FilterChain.class);
-
-        session = mock(Session.class);
-        when(session.put(anyString(), anyString())).thenReturn(session);
-
-        when(sessionProvider.get(any(HttpServletRequest.class), anyBoolean())).thenReturn(Optional.of(session));
-
-
-        csrfFilter = new CsrfFilter(matcher, sessionProvider, tokenSigner, accessDeniedHandler);
-
-
-        rawToken = Token.SerDe.signAndEncode(tokenSigner, token);
+        csrfFilter = new CsrfFilter(matcher, csrfTokenFacade, accessDeniedHandler);
     }
 
     @Test
@@ -65,7 +59,8 @@ public class CsrfFilterTest {
 
         //verify
         verify(filterChain).doFilter(request, response);
-        verify(sessionProvider).flush(response, session);
+        verify(csrfTokenFacade, never()).validate(any());
+        verify(csrfTokenFacade).populateCsrfToken(request, response, true);
     }
 
     @Test
@@ -76,14 +71,16 @@ public class CsrfFilterTest {
         // request matches
         when(matcher.matches(request)).thenReturn(true);
 
-        // token in session
-        when(session.get(anyString())).thenReturn(Optional.of(rawToken));
+        // token is invalid
+        when(csrfTokenFacade.validate(request)).thenReturn(Optional.of(false));
+
         //no token in request
         csrfFilter.doFilterInternal(request, response, filterChain);
 
         //verify
         verify(filterChain, never()).doFilter(request, response);
-        verify(sessionProvider).flush(response, session);
+        verify(csrfTokenFacade).validate(any());
+        verify(csrfTokenFacade).populateCsrfToken(request, response, true);
     }
 
     @Test
@@ -94,17 +91,15 @@ public class CsrfFilterTest {
         // request matches
         when(matcher.matches(request)).thenReturn(true);
 
-        // token in session
-        when(session.get(anyString())).thenReturn(Optional.empty());
-
-        ((MockHttpServletRequest) request).setParameter(CsrfFilter.CSRF_TOKEN_NAME, rawToken);
+        // no session
+        when(csrfTokenFacade.validate(request)).thenReturn(Optional.empty());
 
         //token in request
         csrfFilter.doFilterInternal(request, response, filterChain);
 
         //verify
         verify(filterChain, never()).doFilter(request, response);
-        verify(sessionProvider).flush(response, session);
+        verify(csrfTokenFacade).populateCsrfToken(request, response, true);
     }
 
 
