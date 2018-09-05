@@ -30,10 +30,7 @@ public class StatelessCsrfFilterConfiguration {
 
     @Bean
     public SessionProvider sessionProvider() {
-        final BeanBasedCookieBaker cookieBaker = new BeanBasedCookieBaker();
-        cookieBaker.setCookieName(cookieName);
-        cookieBaker.setCookieSecure(isCookieSecure);
-
+        final BeanBasedCookieBaker cookieBaker = new BeanBasedCookieBaker(cookieName, isCookieSecure);
         return new CookieSessionProvider(cookieBaker, tokenSigner());
     }
 
