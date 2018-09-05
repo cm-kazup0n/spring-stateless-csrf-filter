@@ -45,7 +45,14 @@ public class CookieSession implements Session {
         private SerDe() {
         }
 
+        /**
+         * セッションをCookieとして使用可能な文字列に変換する
+         * @param signer 署名
+         * @param session 保存するセッション
+         * @return Cookieの値
+         */
         public static String serialize(TokenSigner signer, CookieSession session) {
+            //key=value&key=value...の形式に変換する
             final List<String> values = new ArrayList<>(session.values.size());
             for (Map.Entry<String, String> entry : session.values.entrySet()) {
                 final String key = URLEncodeSupport.encode(entry.getKey());
@@ -53,14 +60,23 @@ public class CookieSession implements Session {
                 values.add(key + "=" + val);
             }
             final Token token = Token.Builder.generate(String.join("&", values));
+            //署名をつける
             return Token.SerDe.signAndEncode(signer, token);
         }
 
+        /**
+         * Cookieの値からセッションを復元する
+         * @param signer 署名
+         * @param raw Cookieで指定されている値
+         * @return session
+         */
         public static CookieSession deserialize(TokenSigner signer, String raw) {
+            //デコードする, key=val&key=val...に戻る
             final Token token = Token.SerDe.decodeAndVerify(signer, raw);
+            //&で分割してMapのエントリに変換
             final Map<String, String> values;
             values = Stream
-                    .of(token.getSecret().split("&"))
+                    .of(token.getPayload().split("&"))
                     .map(s -> s.split("="))
                     .collect(Collectors.toMap(
                             kv -> URLEncodeSupport.decode(kv[0]),
