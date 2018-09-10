@@ -13,10 +13,12 @@ buildscript {
     repositories {
         mavenCentral()
         // The next repo is only needed while using SNAPSHOT versions
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven {  url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven {  url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "net.saliman:gradle-cobertura-plugin:2.5.4"
+        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.3"
     }
 }
 
@@ -24,7 +26,7 @@ allprojects {
 
     apply plugin: 'java'
     apply plugin: 'pmd'
-    apply plugin: 'findbugs'
+    apply plugin: 'com.github.spotbugs'
     apply plugin: "jacoco"
 
 
@@ -43,7 +45,7 @@ allprojects {
     tasks.withType(FindBugs) {
         reports {
             xml.enabled = false
-            html.enabled = false
+            html.enabled = true
         }
     }
 
@@ -68,7 +70,7 @@ task codeCoverageReport(type: JacocoReport) {
     reports {
         xml.enabled true
         xml.destination(new File("${buildDir}/reports/jacoco/report.xml"))
-        html.enabled true
+        html.enabled false
         csv.enabled false
     }
 }
