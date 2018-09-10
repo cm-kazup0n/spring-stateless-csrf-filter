@@ -7,16 +7,30 @@ import org.springframework.web.util.CookieGenerator;
 
 import javax.servlet.http.HttpServletResponse;
 
-public class BeanBasedCookieBaker extends CookieGenerator implements SessionCookieBaker {
+/**
+ * spring CookieGereratorをベースとしたSessionCookieBakerの実装
+ */
+public class BeanBasedCookieBaker implements SessionCookieBaker {
 
-    {
-        setCookieSecure(true);
-        setCookieMaxAge(-1);
-        setCookieHttpOnly(true);
+    private final CookieGenerator cookieGenerator;
+
+    public BeanBasedCookieBaker(final String cookieName, final boolean isCookieSecure) {
+        cookieGenerator = new CookieGenerator();
+        cookieGenerator.setCookieSecure(true);
+        cookieGenerator.setCookieMaxAge(-1);
+        cookieGenerator.setCookieHttpOnly(true);
+        cookieGenerator.setCookieName(cookieName);
+        cookieGenerator.setCookieSecure(isCookieSecure);
     }
 
     @Override
     public void addCookie(HttpServletResponse response, TokenSigner signer, CookieSession session) {
-        addCookie(response, CookieSession.SerDe.serialize(signer, session));
+        cookieGenerator.addCookie(response, CookieSession.SerDe.serialize(signer, session));
+    }
+
+    @Override
+    public String getCookieName() {
+        return cookieGenerator.getCookieName();
     }
 }
+

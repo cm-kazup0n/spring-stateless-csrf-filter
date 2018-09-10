@@ -16,7 +16,7 @@ public class TokenTest {
     @Test
     public void testGenerate() throws Exception {
         //指定したsecretで生成される
-        assertEquals("SECRET", Token.Builder.generate("SECRET").getSecret());
+        assertEquals("SECRET", Token.Builder.generate("SECRET").getPayload());
         //secretが同じでもnonceが異なるので、messageも異なる
         assertEquals(Token.Builder.generate("SECRET").getMessage(), Token.Builder.generate("SECRET").getMessage());
 
@@ -29,10 +29,10 @@ public class TokenTest {
         for (Token tokenA : tokens) {
             for (Token tokenB : tokens) {
                 if (tokenA != tokenB) {
-                    assertNotEquals(tokenA.getSecret(), tokenB.getSecret());
+                    assertNotEquals(tokenA.getPayload(), tokenB.getPayload());
                     assertNotEquals(tokenA.getMessage(), tokenB.getMessage());
                 } else {
-                    assertEquals(tokenA.getSecret(), tokenB.getSecret());
+                    assertEquals(tokenA.getPayload(), tokenB.getPayload());
                     assertEquals(tokenA.getMessage(), tokenB.getMessage());
                 }
             }
@@ -49,7 +49,7 @@ public class TokenTest {
         //decode
         final Token decodedToken = Token.SerDe.decodeAndVerify(signer, encoded);
         assertEquals(token.getMessage(), decodedToken.getMessage());
-        assertEquals(token.getSecret(), decodedToken.getSecret());
+        assertEquals(token.getPayload(), decodedToken.getPayload());
     }
 
     @Test(expected = InvalidTokenException.class)
@@ -72,7 +72,7 @@ public class TokenTest {
         //decode
         final Token decodedToken = Token.SerDe.decodeAndVerify(signer, encoded);
         assertEquals(token.getMessage(), decodedToken.getMessage());
-        assertEquals(token.getSecret(), decodedToken.getSecret());
+        assertEquals(token.getPayload(), decodedToken.getPayload());
     }
 
     @Test(expected = IllegalArgumentException.class)
