@@ -51,7 +51,7 @@ public class CsrfTokenFacadeTest {
         when(sessionProvider.get(request, create)).thenReturn(Optional.of(CookieSession.create()));
 
         final String token = csrfTokenFacade.populateCsrfToken(request, response, create).get();
-        assertEquals(79, token.length());
+        assertFalse(token.isEmpty());
         verify(sessionProvider).flush(eq(response), any());
     }
 
@@ -71,7 +71,7 @@ public class CsrfTokenFacadeTest {
         when(sessionProvider.get(request, create)).thenReturn(Optional.of(CookieSession.create()));
 
         final String token = csrfTokenFacade.populateCsrfToken(request, response, create).get();
-        assertEquals(79, token.length());
+        assertFalse(token.isEmpty());
         verify(sessionProvider).flush(eq(response), any());
     }
 

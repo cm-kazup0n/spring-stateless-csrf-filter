@@ -136,7 +136,7 @@ public class Token {
          * @return トークン
          */
         public static final Token generate(final String payload) {
-            final String nonce = Long.toString(System.currentTimeMillis());
+            final String nonce = Long.toString(System.nanoTime());
             return new Token(payload, nonce);
         }
     }

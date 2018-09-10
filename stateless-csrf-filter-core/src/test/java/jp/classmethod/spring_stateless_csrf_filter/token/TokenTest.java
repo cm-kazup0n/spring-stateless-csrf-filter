@@ -18,7 +18,7 @@ public class TokenTest {
         //指定したsecretで生成される
         assertEquals("SECRET", Token.Builder.generate("SECRET").getPayload());
         //secretが同じでもnonceが異なるので、messageも異なる
-        assertEquals(Token.Builder.generate("SECRET").getMessage(), Token.Builder.generate("SECRET").getMessage());
+        assertNotEquals(Token.Builder.generate("SECRET").getMessage(), Token.Builder.generate("SECRET").getMessage());
 
         //引数なしの場合はsercet, messageが毎回違う
         final Set<Token> tokens = IntStream.of(100)
