@@ -1,0 +1,20 @@
+%TEMPLATE_MODE HTML5
+# ------------ separator comment -----------
+%CONTEXT
+# ------------------------------------------
+%MESSAGES
+# ------------------------------------------
+%INPUT
+<!DOCTYPE html>
+<html>
+  <body>
+    <cm:csrf />
+  </body>
+</html>
+# ------------------------------------------
+%OUTPUT
+<!DOCTYPE html>
+<html>
+  <body>
+    <input name="CSRF_TOKEN" type="hidden" value="DUMMY_TOKEN_VALUE" /></body>
+</html>

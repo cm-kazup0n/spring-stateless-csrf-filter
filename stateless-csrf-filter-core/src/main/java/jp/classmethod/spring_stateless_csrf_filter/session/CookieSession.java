@@ -40,6 +40,10 @@ public class CookieSession implements Session {
         return Optional.ofNullable(values.get(key));
     }
 
+    Set<String> getKeys() {
+        return values.keySet();
+    }
+
 
     public static class SerDe {
 
@@ -81,6 +85,7 @@ public class CookieSession implements Session {
             values = Stream
                     .of(token.getPayload().split("&"))
                     .map(s -> s.split("="))
+                    .filter(s -> s.length == 2)
                     .collect(Collectors.toMap(
                             kv -> URLEncodeSupport.decode(kv[0]),
                             kv -> URLEncodeSupport.decode(kv[1])
