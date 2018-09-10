@@ -8,17 +8,31 @@ def thymeLeaf2Version = "2.1.4.RELEASE"
 def thymeLeaf3Version = "3.0.9.RELEASE"
 def servletAPIVersion = "3.1.0"
 
+
+buildscript {
+    repositories {
+        mavenCentral()
+        // The next repo is only needed while using SNAPSHOT versions
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    }
+    dependencies {
+        classpath "net.saliman:gradle-cobertura-plugin:2.5.4"
+    }
+}
+
 allprojects {
 
     apply plugin: 'java'
     apply plugin: 'pmd'
     apply plugin: 'findbugs'
+    apply plugin: "jacoco"
+
 
     sourceCompatibility = 1.8
 
 
     repositories {
-        mavenCentral()
+        jcenter()
     }
 
     dependencies {
@@ -29,7 +43,7 @@ allprojects {
     tasks.withType(FindBugs) {
         reports {
             xml.enabled = false
-            html.enabled = true
+            html.enabled = false
         }
     }
 
@@ -42,8 +56,25 @@ allprojects {
         test.compileClasspath += configurations.providedCompile
         test.runtimeClasspath += configurations.providedCompile
     }
+}
 
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
 
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
+
+    reports {
+        xml.enabled true
+        xml.destination(new File("${buildDir}/reports/jacoco/report.xml"))
+        html.enabled true
+        csv.enabled false
+    }
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
 }
 
 project(':stateless-csrf-filter-core') {
