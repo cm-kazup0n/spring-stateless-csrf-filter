@@ -5,6 +5,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
+import org.thymeleaf.dom.Text;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.element.AbstractElementProcessor;
 

@@ -1,4 +1,4 @@
-package jp.classmethod.spring_stateless_csrf_filter.thymeleaf3;
+package jp.classmethod.spring_stateless_csrf_filter.thymeleaf2;
 
 import jp.classmethod.spring_stateless_csrf_filter.session.CsrfTokenFacade;
 import org.junit.Assert;
@@ -15,6 +15,7 @@ import org.thymeleaf.testing.templateengine.engine.TestExecutor;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -24,6 +25,7 @@ public class CsrfTokenElementProcessorTest {
 
     @Mock
     private CsrfTokenFacade csrfTokenFacade;
+
     private TestExecutor executor;
 
     @Before
